@@ -1,6 +1,6 @@
-import {View, FlatList} from 'react-native';
+import {View, FlatList, TouchableOpacity, Text} from 'react-native';
 import React, {useState} from 'react';
-import {COLOR_PRIMARY} from '../../Styles/colorConstants';
+import {COLOR_PRIMARY, COLOR_WHITE} from '../../Styles/colorConstants';
 import CustomText from '../../Components/SingleComponents/customText';
 import {HEADER_FONT_SIZE} from '../../Styles/fontSizes';
 import {FAMILY_SOMETIME} from '../../Styles/fontFamilies';
@@ -9,7 +9,7 @@ import CustomGradientIcon from '../../Components/SingleComponents/customGradient
 import SoundEntity from '../../Components/MultipleComponents/soundEntity';
 import SearchModal from '../../Components/MultipleComponents/searchModal';
 
-export default function Home() {
+export default function Home(props) {
   const [isVisible, setIsVisible] = useState(false);
   let data = [
     {id: 1, name: 'abc', artist: 'jawad', time: '00:53'},
@@ -25,7 +25,14 @@ export default function Home() {
   ];
 
   const renderItem = ({item}) => (
-    <SoundEntity title={item.name} artist={item.artist} time={item.time} />
+    <SoundEntity
+      title={item.name}
+      artist={item.artist}
+      time={item.time}
+      onPress={() => {
+        props.navigation.navigate('SoundPlayer');
+      }}
+    />
   );
 
   return (
@@ -61,6 +68,12 @@ export default function Home() {
           }}
         />
       </View>
+
+      <TouchableOpacity
+        style={{backgroundColor: COLOR_WHITE}}
+        onPress={() => props.navigation.navigate('Test')}>
+        <Text> TEST</Text>
+      </TouchableOpacity>
 
       <FlatList
         ListHeaderComponent={<View style={{marginVertical: height(1)}} />}

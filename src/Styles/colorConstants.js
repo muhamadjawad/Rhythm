@@ -8,3 +8,5 @@ export const COLOR_SKIN = '#e47c7c';
 export const COLOR_BLUE = '#145281';
 
 export const COLOR_LIGHT_PURPLE = '#4b4e7f';
+export const COLOR_PEACH = '#c8755f';
+export const COLOR_PINK = '#6d2460';

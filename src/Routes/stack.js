@@ -1,10 +1,13 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {Component} from 'react';
+import React from 'react';
 import Home from '../Screens/Home';
+import SoundPlayer from '../Screens/SoundPlayer';
 import Splash from '../Screens/Splash';
+import Test from '../Screens/test';
 
 const Stack = createNativeStackNavigator();
 
+<Stack.Screen />;
 const AppStack = props => {
   return (
     <Stack.Navigator
@@ -14,6 +17,8 @@ const AppStack = props => {
       initialRouteName="Splash">
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="SoundPlayer" component={SoundPlayer} />
+      <Stack.Screen name="Test" component={Test} />
     </Stack.Navigator>
   );
 };

@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
   COLOR_BLUE,
@@ -21,69 +21,71 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export default function SoundEntity(props) {
   return (
-    <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 1}}
-      colors={['#353761', COLOR_SECONDARY, COLOR_PRIMARY]} //'#4c669f', '#3b5998', '#192f6a'
-      style={{
-        backgroundColor: COLOR_SECONDARY,
-        marginHorizontal: width(3),
-        borderRadius: 7,
-        padding: 4,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: height(2),
-        paddingHorizontal: width(2),
-        marginVertical: height(0.5),
-      }}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <View
-          style={{
-            backgroundColor: COLOR_PRIMARY,
-            justifyContent: 'center',
-            borderRadius: width(10),
-            padding: 10,
-            // alignItems: 'center',
-            // alignSelf: 'center',
-          }}>
-          <CustomGradientIcon
-            type="ionicons"
-            name="pause"
-            style={{marginLeft: width(1)}}
-          />
-        </View>
-        <View style={{marginLeft: width(2)}}>
-          <CustomText
-            title={props.title}
-            style={{
-              fontSize: NORMAL_FONT_SIZE,
-              fontFamily: FAMILY_ARGUE,
-              color: COLOR_SKIN,
-              maxWidth: width(60),
-            }}
-          />
-          <CustomText
-            title={props.artist}
-            style={{
-              fontSize: SMALL_FONT_SIZE,
-              fontFamily: FAMILY_MOGENA,
-              color: COLOR_BLUE,
-              marginTop: height(0.5),
-              maxWidth: width(30),
-            }}
-          />
-        </View>
-      </View>
-      <CustomText
-        title={props.time}
+    <TouchableOpacity onPress={props.onPress}>
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        colors={['#353761', COLOR_SECONDARY, COLOR_PRIMARY]} //'#4c669f', '#3b5998', '#192f6a'
         style={{
-          fontSize: SMALL_FONT_SIZE,
-          fontFamily: FAMILY_STORYSTONE,
-          color: COLOR_LIGHT_PURPLE,
-        }}
-      />
-    </LinearGradient>
+          backgroundColor: COLOR_SECONDARY,
+          marginHorizontal: width(3),
+          borderRadius: 7,
+          padding: 4,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: height(2),
+          paddingHorizontal: width(2),
+          marginVertical: height(0.5),
+        }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              backgroundColor: COLOR_PRIMARY,
+              justifyContent: 'center',
+              borderRadius: width(10),
+              padding: 10,
+              // alignItems: 'center',
+              // alignSelf: 'center',
+            }}>
+            <CustomGradientIcon
+              type="ionicons"
+              name="pause"
+              style={{marginLeft: width(1)}}
+            />
+          </View>
+          <View style={{marginLeft: width(2)}}>
+            <CustomText
+              title={props.title}
+              style={{
+                fontSize: NORMAL_FONT_SIZE,
+                fontFamily: FAMILY_ARGUE,
+                color: COLOR_SKIN,
+                maxWidth: width(60),
+              }}
+            />
+            <CustomText
+              title={props.artist}
+              style={{
+                fontSize: SMALL_FONT_SIZE,
+                fontFamily: FAMILY_MOGENA,
+                color: COLOR_BLUE,
+                marginTop: height(0.5),
+                maxWidth: width(30),
+              }}
+            />
+          </View>
+        </View>
+        <CustomText
+          title={props.time}
+          style={{
+            fontSize: SMALL_FONT_SIZE,
+            fontFamily: FAMILY_STORYSTONE,
+            color: COLOR_LIGHT_PURPLE,
+          }}
+        />
+      </LinearGradient>
+    </TouchableOpacity>
   );
 }
 
