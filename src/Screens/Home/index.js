@@ -1,6 +1,11 @@
-import {View, FlatList, TouchableOpacity, Text} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React, {useState} from 'react';
-import {COLOR_PRIMARY, COLOR_WHITE} from '../../Styles/colorConstants';
+import {
+  COLOR_BLACK,
+  COLOR_LIGHT_SECONDARY,
+  COLOR_PRIMARY,
+  COLOR_SECONDARY,
+} from '../../Styles/colorConstants';
 import CustomText from '../../Components/SingleComponents/customText';
 import {HEADER_FONT_SIZE} from '../../Styles/fontSizes';
 import {FAMILY_SOMETIME} from '../../Styles/fontFamilies';
@@ -8,9 +13,14 @@ import {height, width} from 'react-native-dimension';
 import CustomGradientIcon from '../../Components/SingleComponents/customGradientIcon';
 import SoundEntity from '../../Components/MultipleComponents/soundEntity';
 import SearchModal from '../../Components/MultipleComponents/searchModal';
+import LinearGradient from 'react-native-linear-gradient';
+import HomeHeader from '../../Components/MultipleComponents/homeHeader';
 
 export default function Home(props) {
   const [isVisible, setIsVisible] = useState(false);
+  const [currentPlay, setCurrentPlay] = useState(true);
+  const [slider, setSlider] = useState(0.2);
+  const [seacrh, setSeacrh] = useState(false);
   let data = [
     {id: 1, name: 'abc', artist: 'jawad', time: '00:53'},
     {id: 2, name: 'abc', artist: 'jawad', time: '00:53'},
@@ -30,50 +40,15 @@ export default function Home(props) {
       artist={item.artist}
       time={item.time}
       onPress={() => {
-        props.navigation.navigate('SoundPlayer');
+        props.navigation.navigate('SoundPlayerScreen');
       }}
+      current={item.id === 4 ? true : false}
     />
   );
 
   return (
     <View style={{backgroundColor: COLOR_PRIMARY, flex: 1}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: width(3),
-
-          alignItems: 'center',
-          marginVertical: height(2),
-        }}>
-        <CustomGradientIcon
-          type="ionicons"
-          name="arrow-left-circle"
-          size={30}
-          onPress={() => console.log('Pres')}
-        />
-        <CustomText
-          title={'My Playlists'}
-          style={{
-            fontSize: HEADER_FONT_SIZE,
-            fontFamily: FAMILY_SOMETIME,
-          }}
-        />
-        <CustomGradientIcon
-          type="font-awesome"
-          name="search"
-          size={30}
-          onPress={() => {
-            setIsVisible(true);
-          }}
-        />
-      </View>
-
-      <TouchableOpacity
-        style={{backgroundColor: COLOR_WHITE}}
-        onPress={() => props.navigation.navigate('Test')}>
-        <Text> TEST</Text>
-      </TouchableOpacity>
+      <HomeHeader />
 
       <FlatList
         ListHeaderComponent={<View style={{marginVertical: height(1)}} />}
@@ -84,6 +59,7 @@ export default function Home(props) {
       />
 
       <SearchModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
+      {/* <BottomPlayerComponent /> */}
     </View>
   );
 }

@@ -48,7 +48,7 @@ const CircleSlider: FC<Props> = ({
   textSize = 10,
   value = 0,
   min = 0,
-  max = 359,
+  max = 0,
   xCenter = Dimensions.get('window').width / 2,
   yCenter = Dimensions.get('window').height / 2,
   onValueChange = x => x,
