@@ -1,57 +1,70 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  TouchableHighlight,
-  Pressable,
-} from 'react-native';
-import React from 'react';
-import {COLOR_WHITE} from '../../Styles/colorConstants';
-// import {Icon} from 'react-native-gradient-icon';
-import {GRADIENT_SKIN_PURPLE} from '../../Styles/gradients';
+import TrackPlayer, {
+  Capability,
+  Event,
+  RepeatMode,
+  State,
+  usePlaybackState,
+  useTrackPlayerEvents,
+  useProgress,
+} from 'react-native-track-player';
 
-import {width} from 'react-native-dimension';
-import {Icon} from 'react-native-gradient-icon';
-import {Icon as NatIcon} from 'native-base';
+const setupPlayer = async () => {
+  await TrackPlayer.setupPlayer();
 
-export default function Test(props) {
-  return (
-    <View style={{backgroundColor: COLOR_WHITE}}>
-      <TouchableOpacity onPress={() => props.navigation.pop()}>
-        <Text> POP</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.push('Home')}>
-        <NatIcon
-          type={'AntDesign'}
-          name={'upcircleo'}
-          color={'pink'}
-          style={{fontSize: width(16)}}
-        />
-      </TouchableOpacity>
+  await TrackPlayer.add(sound[0]);
 
-      <Pressable onPress={() => props.navigation.pop()}>
-        <Icon
-          // style={props.style}
-          size={50}
-          colors={GRADIENT_SKIN_PURPLE}
-          type={'ionicons'}
-          name={'arrow-right-circle'}
-        />
-      </Pressable>
-    </View>
-  );
-}
+  await TrackPlayer.play();
+};
 
-const styles = StyleSheet.create({
-  shadow: {
-    fontSize: width(20),
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-  },
+const togglePlayButton = async current => {
+  const currentTrack = TrackPlayer.getCurrentTrack();
+  if (currentTrack !== null) {
+    if (current === State.Paused) {
+      await TrackPlayer.play();
+    } else {
+      await TrackPlayer.pause();
+    }
+  }
+};
+
+//////////////states for buttons //////
+
+const [play, setPlay] = useState(true);
+///////////////////////////////////////
+
+//////////////////////////////////////
+
+const playbackState = usePlaybackState();
+const soundProgress = useProgress();
+//////////////////////////////////////
+
+///@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+useEffect(() => {
+  SoundPlayer.getInfo().then(val => {
+    console.log('Info===>', val);
+
+    if (duration === 0) {
+      setDuration(val.duration);
+    }
+    setPosition(val.currentTime);
+  });
+
+  // console.log(getInfo());
 });
+
+useEffect(() => {
+  console.log('durtion changed to ,', duration);
+}, [duration]);
+
+useEffect(() => {
+  console.log('position changed  to ', position);
+}, [position]);
+
+const setupPlayer = async () => {
+  await SoundPlayer.playSoundFile('surah_fatiha', 'mp3');
+  await SoundPlayer.play();
+};
+
+const [position, setPosition] = useState(0);
+const [duration, setDuration] = useState(0);
