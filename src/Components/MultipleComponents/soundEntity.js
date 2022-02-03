@@ -89,7 +89,7 @@ export default function SoundEntity(props) {
             </View>
           </View>
           <CustomText
-            title={props.time}
+            title={new Date(props.time * 1000).toISOString().substr(14, 5)}
             style={{
               fontSize: SMALL_FONT_SIZE,
               fontFamily: FAMILY_STORYSTONE,

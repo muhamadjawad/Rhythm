@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+
+
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 
 import com.facebook.react.ReactInstanceManager;
@@ -15,6 +17,8 @@ import java.util.List;
 import com.BV.LinearGradient.LinearGradientPackage;
 
 import com.facebook.react.bridge.JSIModulePackage;
+
+
 
 
 public class MainApplication extends Application implements ReactApplication {
@@ -41,6 +45,11 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           return packages;
         }
+
+
+    
+
+
 
         @Override
         protected String getJSMainModuleName() {

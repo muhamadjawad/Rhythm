@@ -136,23 +136,25 @@ export default function SoundPlayerScreen(props) {
   };
 
   const shuffle = async () => {
-    TrackPlayer.loo;
+    // TrackPlayer.loo;
   };
 
   useEffect(() => {
-    TrackPlayer.addEventListener('playback-state', ({state}) =>
-      //state 2 === paused
-      // state 3 ===played
+    try {
+      TrackPlayer.addEventListener('playback-state', ({state}) =>
+        //state 2 === paused
+        // state 3 ===played
 
-      {
-        // console.log('Play event ', state);
-        if (state === 1) {
-          // then play the first sound again
-          // TrackPlayer.reset();
-          TrackPlayer.skip(0);
-        }
-      },
-    );
+        {
+          // console.log('Play event ', state);
+          if (state === 1) {
+            // then play the first sound again
+            // TrackPlayer.reset();
+            TrackPlayer.skip(0);
+          }
+        },
+      );
+    } catch (error) {}
   });
 
   return (
