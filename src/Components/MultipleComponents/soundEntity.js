@@ -30,8 +30,6 @@ import CustomLinearSlider from '../SingleComponents/customLinearSlider';
 import * as Animatable from 'react-native-animatable';
 
 export default function SoundEntity(props) {
-  const [slider, setSlider] = useState(0.0);
-
   return (
     <TouchableOpacity onPress={props.onPress}>
       <LinearGradient
@@ -60,9 +58,10 @@ export default function SoundEntity(props) {
                 // alignSelf: 'center',
               }}>
               <CustomGradientIcon
-                type="ionicons"
-                name="pause"
+                name={props.current ? 'pause' : 'play'}
+                type="font-awesome"
                 style={{marginLeft: width(1)}}
+                onPress={props.onPressPlay}
               />
             </View>
             <View style={{marginLeft: width(2)}}>
@@ -99,8 +98,9 @@ export default function SoundEntity(props) {
         </View>
         {props.current === true ? (
           <CustomLinearSlider
-            value={slider}
-            onValueChange={value => setSlider(value)}
+            value={props.sliderValue}
+            max={props.max}
+            // onValueChange={value => setSlider(value)}
           />
         ) : null}
       </LinearGradient>

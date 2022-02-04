@@ -24,8 +24,8 @@ import CustomText from '../../Components/SingleComponents/customText';
 import Images from '../../Assets/Images';
 import Modal from 'react-native-modal';
 import CustomLinearSlider from '../../Components/SingleComponents/customLinearSlider';
-// import SoundPlayer from 'react-native-sound-player';
-import TrackPlayer, {
+
+import {
   Capability,
   Event,
   RepeatMode,
@@ -34,8 +34,7 @@ import TrackPlayer, {
   useTrackPlayerEvents,
   useProgress,
 } from 'react-native-track-player';
-import {sound} from '../../Model/data';
-import SoundPlayer from 'react-native-sound-player';
+import {soundArray} from '../../Model/data';
 
 export default function SoundPlayerScreen(props) {
   const soundButtonRadius = width(3.4);
@@ -47,63 +46,47 @@ export default function SoundPlayerScreen(props) {
 
   const [play, setPlay] = useState(true);
   const [repeatMode, setRepeatMode] = useState('off');
+  const [trackLength, setTrackLength] = useState(0);
 
   ///////////////////////////////////////
 
   //////////////////////////////////////
 
   const playbackState = usePlaybackState();
-  const soundProgress = useProgress();
+
   //////////////////////////////////////
 
   useEffect(() => {
-    setupPlayer();
-  }, []);
-
-  const setupPlayer = () => {
-    try {
-      TrackPlayer.setupPlayer()
-        .then(() => {
-          TrackPlayer.add(sound);
-        })
-        .then(() => {
-          TrackPlayer.play();
-        });
-    } catch (error) {
-      console.log('error in initiliaztion ', error);
-    }
-  };
-  const stopPlayer = async () => {
-    await TrackPlayer.stop();
-  };
+    console.log('value in side  ', props.value, 'max', props.max);
+  });
 
   const togglePlayButton = async current => {
-    const currentTrack = await TrackPlayer.getCurrentTrack();
+    const currentTrack = await props.TrackPlayer.getCurrentTrack();
     console.log(currentTrack, 'current', current, 'State.Paused', State.Paused);
     if (currentTrack !== null) {
       if (current === State.Paused) {
-        await TrackPlayer.play();
+        await props.TrackPlayer.play();
       } else if (current === State.Playing) {
-        await TrackPlayer.pause();
+        await props.TrackPlayer.pause();
       } else {
-        await TrackPlayer.play();
+        await props.TrackPlayer.play();
       }
     }
   };
 
   const nextTrack = async () => {
     try {
-      await TrackPlayer.skipToNext();
+      await props.TrackPlayer.skipToNext();
     } catch (error) {
-      await TrackPlayer.skip(0);
+      await props.TrackPlayer.skip(0);
     }
   };
 
   const previousTrack = async () => {
     try {
-      await TrackPlayer.skipToPrevious();
+      await props.TrackPlayer.skipToPrevious();
     } catch (error) {
-      await TrackPlayer.skip(sound.length - 1);
+      await props.TrackPlayer.skip(trackLength - 1);
     }
   };
 
@@ -120,28 +103,24 @@ export default function SoundPlayerScreen(props) {
 
   const changeRepeatMode = () => {
     if (repeatMode === 'off') {
-      TrackPlayer.setRepeatMode(RepeatMode.Track);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Track);
       setRepeatMode('track');
     }
 
     if (repeatMode === 'track') {
-      TrackPlayer.setRepeatMode(RepeatMode.Queue);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Queue);
       setRepeatMode('repeat');
     }
 
     if (repeatMode === 'repeat') {
-      TrackPlayer.setRepeatMode(RepeatMode.Off);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Off);
       setRepeatMode('off');
     }
   };
 
-  const shuffle = async () => {
-    // TrackPlayer.loo;
-  };
-
   useEffect(() => {
     try {
-      TrackPlayer.addEventListener('playback-state', ({state}) =>
+      props.TrackPlayer.addEventListener('playback-state', ({state}) =>
         //state 2 === paused
         // state 3 ===played
 
@@ -149,8 +128,8 @@ export default function SoundPlayerScreen(props) {
           // console.log('Play event ', state);
           if (state === 1) {
             // then play the first sound again
-            // TrackPlayer.reset();
-            TrackPlayer.skip(0);
+            // props.TrackPlayer.reset();
+            props.TrackPlayer.skip(0);
           }
         },
       );
@@ -161,8 +140,8 @@ export default function SoundPlayerScreen(props) {
     <Modal
       animationIn={'shake'}
       animationOut={'fadeIn'}
-      transparent={true}
-      isVisible={true}
+      // transparent={true}
+      isVisible={props.isVisible}
       style={{
         flex: 1,
         backgroundColor: COLOR_PRIMARY,
@@ -182,7 +161,7 @@ export default function SoundPlayerScreen(props) {
           name="arrow-right-circle"
           size={32}
           style={{alignSelf: 'flex-end'}}
-          onPress={() => props.navigation.pop()}
+          onPress={props.onClose}
         />
       </View>
 
@@ -191,32 +170,15 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           alignSelf: 'center',
         }}>
-        {/* <CircleSlider
-          value={parseInt(
-            soundProgress.position * (360 / soundProgress.duration),
-          )}
-          max={359}
-          btnRadius={soundButtonRadius}
-          dialRadius={sliderRadius}
-          min={0}
-          meterColor={COLOR_SKIN}
-          strokeWidth={4}
-          strokeColor={COLOR_PINK}
-          // onValueChange={async value => {
-          //   console.log('value', value);
-          //   await TrackPlayer.seekTo(value);
-          // }}
-        /> */}
-
         <View style={{position: 'relative', marginTop: marginCal}}>
-          <Image style={styles.image} source={Images.test} />
+          <Image style={styles.image} source={props.image} />
         </View>
       </View>
 
       <View style={{marginHorizontal: width(10)}}>
         <CustomLinearSlider
-          value={soundProgress.position}
-          max={soundProgress.duration}
+          value={props.value !== undefined ? props.value : 0}
+          max={props.max !== undefined ? props.max : 0}
           onStart={() => {
             console.log('start');
           }}
@@ -230,21 +192,17 @@ export default function SoundPlayerScreen(props) {
       <View style={styles.timer}>
         <CustomText
           style={{color: COLOR_BLUE, fontFamily: FAMILY_BULLYING}}
-          title={new Date(soundProgress.position * 1000)
-            .toISOString()
-            .substr(14, 5)}
+          title={new Date(props.value * 1000).toISOString().substr(14, 5)}
         />
         <CustomText
           style={{color: COLOR_SKIN, fontFamily: FAMILY_BULLYING}}
-          title={new Date(soundProgress.duration * 1000)
-            .toISOString()
-            .substr(14, 5)}
+          title={new Date(props.max * 1000).toISOString().substr(14, 5)}
         />
       </View>
       <View>
         <View style={{alignItems: 'center'}}>
           <CustomText
-            title={'Sound Name vary vary large large dfsf'}
+            title={props.title}
             style={{
               color: COLOR_WHITE,
               fontSize: LARGE_FONT_SIZE,
@@ -253,12 +211,12 @@ export default function SoundPlayerScreen(props) {
             }}
           />
           <CustomText
-            title={`'Repeat  mode ===>' ${repeatMode}`}
+            title={props.artist}
             style={{
               color: COLOR_LIGHT_PURPLE,
               fontSize: NORMAL_FONT_SIZE,
               fontFamily: FAMILY_CHEEKY_RABBIT,
-              maxWidth: width(60),
+              maxWidth: width(30),
               marginTop: height(1),
             }}
           />
@@ -273,8 +231,8 @@ export default function SoundPlayerScreen(props) {
             colors={GRADIENT_BLUE_PURPLE}
           />
           <CustomGradientIcon
-            name="controller-fast-backward"
-            type="entypo"
+            name="skip-previous"
+            type="material"
             size={35}
             onPress={() => previousTrack()}
           />
@@ -296,8 +254,8 @@ export default function SoundPlayerScreen(props) {
             </View>
           </LinearGradient>
           <CustomGradientIcon
-            name="controller-fast-forward"
-            type="entypo"
+            name="skip-next"
+            type="material"
             size={35}
             onPress={() => nextTrack()}
           />

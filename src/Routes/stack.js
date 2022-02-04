@@ -4,6 +4,7 @@ import Home from '../Screens/Home';
 import SoundPlayerScreen from '../Screens/SoundPlayer';
 
 import Splash from '../Screens/Splash';
+import Test from '../Screens/test';
 
 const Stack = createStackNavigator();
 
@@ -13,11 +14,11 @@ const AppStack = props => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Splash">
+      initialRouteName="Test">
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="SoundPlayerScreen" component={SoundPlayerScreen} />
-      {/* <Stack.Screen name="Test" component={Test} /> */}
+      <Stack.Screen name="Test" component={Test} />
     </Stack.Navigator>
   );
 };

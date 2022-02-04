@@ -12,13 +12,43 @@ import {
 import Images from '../../Assets/Images/index';
 import {height, width} from 'react-native-dimension';
 import LinearGradient from 'react-native-linear-gradient';
+import TrackPlayer, {
+  Capability,
+  Event,
+  RepeatMode,
+  State,
+  usePlaybackState,
+  useTrackPlayerEvents,
+  useProgress,
+} from 'react-native-track-player';
+import {soundArray} from '../../Model/data';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeTrack} from '../../ReduxToolkit/Reducer/TrackPlayer';
 
 export default function Splash(props) {
+  const {data} = useSelector(state => state.track);
+  const dispatch = useDispatch();
   useEffect(() => {
+    // if (soundArray.constructor === Array) {
+    //   setupPlayer();
+    // }
     setTimeout(() => {
       props.navigation.navigate('Home');
     }, 0);
   }, []);
+
+  const setupPlayer = () => {
+    TrackPlayer.setupPlayer()
+      .then(() => {
+        TrackPlayer.add(soundArray);
+      })
+      .then(() => {
+        dispatch(changeTrack(TrackPlayer));
+      })
+      .then(() => {
+        console.log('Track Added');
+      });
+  };
 
   return (
     <View
