@@ -6,6 +6,7 @@ import {
   COLOR_PRIMARY,
   COLOR_SECONDARY,
   COLOR_SKIN,
+  COLOR_WHITE,
 } from '../../Styles/colorConstants';
 import {height, width} from 'react-native-dimension';
 import CustomGradientIcon from '../SingleComponents/customGradientIcon';
@@ -16,37 +17,49 @@ import {FAMILY_CHEEKY_RABBIT, FAMILY_SOMETIME} from '../../Styles/fontFamilies';
 export default function HomeHeader(props) {
   const [seacrhKeyword, setSeacrhKeyword] = useState('');
   const [search, setSearch] = useState(false);
+
   return (
     <View>
       {search ? (
         <LinearGradient
           colors={[COLOR_PRIMARY, COLOR_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
           style={styles.searchContainer}>
-          <CustomGradientIcon
-            disabled={true}
-            type="font-awesome"
-            name="search"
-            size={27}
-          />
-          <TextInput
-            value={seacrhKeyword}
-            onChangeText={val => {
-              setSeacrhKeyword(val);
-            }}
-            spellCheck={false}
-            placeholder="Type Here..."
-            placeholderTextColor={COLOR_SKIN}
-            style={[
-              styles.inputContainer,
-              {fontFamily: seacrhKeyword ? 'AntDesign' : FAMILY_CHEEKY_RABBIT},
-            ]}
-          />
-          <CustomGradientIcon
-            type="font-awesome"
-            name="close"
-            size={27}
-            onPress={() => setSearch(false)}
-          />
+          <View style={{flex: 0.9}}>
+            <TextInput
+              value={seacrhKeyword}
+              onChangeText={val => {
+                setSeacrhKeyword(val);
+                props.setKeyword(val);
+              }}
+              spellCheck={false}
+              placeholder="Search Here..."
+              placeholderTextColor={COLOR_SKIN}
+              style={[
+                styles.inputContainer,
+                {
+                  fontFamily: seacrhKeyword
+                    ? 'AntDesign'
+                    : FAMILY_CHEEKY_RABBIT,
+                },
+              ]}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.1,
+              alignItems: 'center',
+            }}>
+            <CustomGradientIcon
+              type="font-awesome"
+              name="close"
+              size={27}
+              onPress={() => {
+                setSearch(false);
+                props.setSearch(false);
+                setSeacrhKeyword('');
+              }}
+            />
+          </View>
         </LinearGradient>
       ) : (
         <View style={styles.nonSearchContainer}>
@@ -65,6 +78,7 @@ export default function HomeHeader(props) {
             size={30}
             onPress={() => {
               setSearch(true);
+              props.setSearch(true);
             }}
           />
         </View>

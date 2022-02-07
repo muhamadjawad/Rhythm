@@ -15,6 +15,7 @@ export default function Home(props) {
   const [isVisible, setIsVisible] = useState(false);
   const [sPModal, setsPdModal] = useState(false);
   const [play, setPlay] = useState(false);
+  const [keyword, setKeyword] = useState('');
   ////////////////////Current Data ///////////
   const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
   const [title, setTitle] = useState('');
@@ -118,43 +119,53 @@ export default function Home(props) {
   };
 
   useEffect(() => {
-    // TrackPlayer.stop();
     let condition1 = soundProgress.duration != 0 && play === true;
     let condition2 =
       Math.floor(soundProgress.position) === soundProgress.duration;
     let condition3 =
       Math.floor(soundProgress.position) === soundProgress.duration - 1;
 
-    // console.log('con 1', condition1, 'con 2', condition2, 'con 3', condition3);
     if (condition1 && condition3) {
-      // stopPlayer();
-
       // here we need to update the player
 
       setTitle(soundArray[currentTrackIndex + 1].title);
       setImage(soundArray[currentTrackIndex + 1].artwork);
       setArtist(soundArray[currentTrackIndex + 1].artist);
-
-      // console.log('Its completed');
     }
-
-    // console.log('Done ');
   });
+
+  const [searchedResult, setSearchedResult] = useState([]);
+  const [search, setSearch] = useState(false);
+  useEffect(() => {
+    let result = soundArray.filter(obj =>
+      obj.title.toLowerCase().includes(keyword.toLowerCase()),
+    );
+    console.log('object searched,', result);
+
+    setSearchedResult(result);
+  }, [keyword]);
 
   return (
     <View style={{backgroundColor: COLOR_PRIMARY, flex: 1}}>
-      <HomeHeader />
+      <HomeHeader
+        setKeyword={val => {
+          console.log('Itss keywrd', val);
+          setKeyword(val);
+        }}
+        setSearch={val => {
+          setSearch(val);
+        }}
+      />
 
       <FlatList
         ListHeaderComponent={<View style={{marginVertical: height(1)}} />}
         ListFooterComponent={<View style={{marginVertical: height(1)}} />}
-        data={soundArray}
+        data={search === true ? searchedResult : soundArray}
         renderItem={({item, index}) => renderItem(item, index)}
         keyExtractor={(item, index) => index.toString()}
       />
 
       <SearchModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
-      {/* <BottomPlayerComponent /> */}
 
       <SoundPlayerScreen
         TrackPlayer={TrackPlayer}

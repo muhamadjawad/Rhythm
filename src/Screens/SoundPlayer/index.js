@@ -35,12 +35,13 @@ import {
   useProgress,
 } from 'react-native-track-player';
 import {soundArray} from '../../Model/data';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 export default function SoundPlayerScreen(props) {
   const soundButtonRadius = width(3.4);
-  const sliderRadius = width(80) / 2;
+  const sliderRadius = width(84) / 2;
   const imageRadius = width(65) / 2;
-  const marginCal = sliderRadius - imageRadius + soundButtonRadius;
+  const marginCal = sliderRadius - imageRadius;
 
   //////////////states for buttons //////
 
@@ -170,12 +171,25 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           alignSelf: 'center',
         }}>
-        <View style={{position: 'relative', marginTop: marginCal}}>
+        <CircularProgress
+          value={
+            props.value !== undefined ? (props.value / props.max) * 100 : 0
+          }
+          radius={sliderRadius}
+          textColor={'#ecf0f1'}
+          inActiveStrokeColor={'transparent'}
+          // inActiveStrokeOpacity={0.5}
+          inActiveStrokeWidth={20}
+          activeStrokeWidth={10}
+          activeStrokeColor={COLOR_PINK}
+          activeStrokeSecondaryColor={COLOR_PEACH}
+        />
+        <View style={{position: 'absolute', marginTop: marginCal}}>
           <Image style={styles.image} source={props.image} />
         </View>
       </View>
 
-      <View style={{marginHorizontal: width(10)}}>
+      {/* <View style={{marginHorizontal: width(10)}}>
         <CustomLinearSlider
           value={props.value !== undefined ? props.value : 0}
           max={props.max !== undefined ? props.max : 0}
@@ -187,7 +201,7 @@ export default function SoundPlayerScreen(props) {
             // await SoundPlayer.seek(value);
           }}
         />
-      </View>
+      </View> */}
 
       <View style={styles.timer}>
         <CustomText

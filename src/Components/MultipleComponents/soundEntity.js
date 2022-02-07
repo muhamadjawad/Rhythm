@@ -28,6 +28,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import CustomLinearSlider from '../SingleComponents/customLinearSlider';
 import * as Animatable from 'react-native-animatable';
+import CircularProgress from 'react-native-circular-progress-indicator';
 
 export default function SoundEntity(props) {
   return (
@@ -47,15 +48,17 @@ export default function SoundEntity(props) {
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             <View
               style={{
                 backgroundColor: COLOR_PRIMARY,
                 justifyContent: 'center',
-                borderRadius: width(10),
-                padding: 10,
-                // alignItems: 'center',
-                // alignSelf: 'center',
+                borderRadius: width(50),
+                padding: width(5),
               }}>
               <CustomGradientIcon
                 name={props.current ? 'pause' : 'play'}
@@ -63,6 +66,23 @@ export default function SoundEntity(props) {
                 style={{marginLeft: width(1)}}
                 onPress={props.onPressPlay}
               />
+              {props.current ? (
+                <View style={{position: 'absolute', alignSelf: 'center'}}>
+                  <CircularProgress
+                    value={
+                      props.sliderValue !== undefined && props.max !== undefined
+                        ? (props.sliderValue / props.max) * 100
+                        : 0
+                    }
+                    radius={width(11)}
+                    textColor={'transparent'}
+                    inActiveStrokeColor={'transparent'}
+                    activeStrokeWidth={5}
+                    activeStrokeColor={COLOR_PINK}
+                    activeStrokeSecondaryColor={COLOR_PEACH}
+                  />
+                </View>
+              ) : null}
             </View>
             <View style={{marginLeft: width(2)}}>
               <CustomText
@@ -96,13 +116,6 @@ export default function SoundEntity(props) {
             }}
           />
         </View>
-        {props.current === true ? (
-          <CustomLinearSlider
-            value={props.sliderValue}
-            max={props.max}
-            // onValueChange={value => setSlider(value)}
-          />
-        ) : null}
       </LinearGradient>
     </TouchableOpacity>
   );
