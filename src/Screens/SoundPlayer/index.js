@@ -2,6 +2,7 @@ import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   COLOR_BLUE,
+  COLOR_GREY,
   COLOR_LIGHT_PURPLE,
   COLOR_PEACH,
   COLOR_PINK,
@@ -9,11 +10,19 @@ import {
   COLOR_PURPLE,
   COLOR_SKIN,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import CustomGradientIcon from '../../Components/SingleComponents/customGradientIcon';
 import {height, width} from 'react-native-dimension';
 import LinearGradient from 'react-native-linear-gradient';
-import {GRADIENT_BLUE_PURPLE} from '../../Styles/gradients';
+import {
+  GRADIENT_BLUE_PURPLE,
+  GRADIENT_CORAL,
+  GRADIENT_CORAL_GREY,
+  GRADIENT_GREY,
+  GRADIENT_SKIN,
+  GRADIENT_TURTOISE,
+  GRADIENT_WHITE,
+} from '../../Styles/gradients';
 import {LARGE_FONT_SIZE, NORMAL_FONT_SIZE} from '../../Styles/fontSizes';
 import {
   FAMILY_ARGUE,
@@ -35,6 +44,7 @@ import {
   useProgress,
 } from 'react-native-track-player';
 import {soundArray} from '../../Model/data';
+import Colors from '../../Styles/Colors';
 
 export default function SoundPlayerScreen(props) {
   const soundButtonRadius = width(3.4);
@@ -144,131 +154,142 @@ export default function SoundPlayerScreen(props) {
       isVisible={props.isVisible}
       style={{
         flex: 1,
-        backgroundColor: COLOR_PRIMARY,
+        backgroundColor: Colors.COLOR_LIGHT_SECONDARY,
         justifyContent: 'space-between',
         margin: 0,
       }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          paddingHorizontal: width(3),
-          alignItems: 'center',
-          marginVertical: height(2),
-        }}>
-        <CustomGradientIcon
-          type="ionicons"
-          name="arrow-right-circle"
-          size={32}
-          style={{alignSelf: 'flex-end'}}
-          onPress={props.onClose}
-        />
-      </View>
-
-      <View
-        style={{
-          alignItems: 'center',
-          alignSelf: 'center',
-        }}>
-        <View style={{position: 'relative', marginTop: marginCal}}>
-          <Image style={styles.image} source={props.image} />
+      <LinearGradient
+        colors={[
+          Colors.COLOR_SECONDARY,
+          Colors.COLOR_SECONDARY,
+          Colors.COLOR_SECONDARY,
+        ]} //'#4c669f', '#3b5998', '#192f6a'
+        style={{flex: 1, justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            paddingHorizontal: width(3),
+            alignItems: 'center',
+            marginVertical: height(2),
+          }}>
+          <CustomGradientIcon
+            type="ionicons"
+            name="arrow-right-circle"
+            size={32}
+            style={{alignSelf: 'flex-end'}}
+            onPress={props.onClose}
+            colors={GRADIENT_WHITE}
+          />
         </View>
-      </View>
 
-      <View style={{marginHorizontal: width(10)}}>
-        <CustomLinearSlider
-          value={props.value !== undefined ? props.value : 0}
-          max={props.max !== undefined ? props.max : 0}
-          onStart={() => {
-            console.log('start');
-          }}
-          onChange={async value => {
-            console.log('value of current ==>', value);
-            // await SoundPlayer.seek(value);
-          }}
-        />
-      </View>
+        <View
+          style={{
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}>
+          <View style={{position: 'relative', marginTop: marginCal}}>
+            <Image style={styles.image} source={props.image} />
+          </View>
+        </View>
 
-      <View style={styles.timer}>
-        <CustomText
-          style={{color: COLOR_BLUE, fontFamily: FAMILY_BULLYING}}
-          title={new Date(props.value * 1000).toISOString().substr(14, 5)}
-        />
-        <CustomText
-          style={{color: COLOR_SKIN, fontFamily: FAMILY_BULLYING}}
-          title={new Date(props.max * 1000).toISOString().substr(14, 5)}
-        />
-      </View>
-      <View>
-        <View style={{alignItems: 'center'}}>
-          <CustomText
-            title={props.title}
-            style={{
-              color: COLOR_WHITE,
-              fontSize: LARGE_FONT_SIZE,
-              fontFamily: FAMILY_ARGUE,
-              maxWidth: width(80),
+        {/* <View style={{marginHorizontal: width(10)}}>
+          <CustomLinearSlider
+            value={props.value !== undefined ? props.value : 0}
+            max={props.max !== undefined ? props.max : 0}
+            onStart={() => {
+              console.log('start');
+            }}
+            onChange={async value => {
+              console.log('value of current ==>', value);
+              // await SoundPlayer.seek(value);
             }}
           />
+        </View> */}
+
+        <View style={styles.timer}>
           <CustomText
-            title={props.artist}
-            style={{
-              color: COLOR_LIGHT_PURPLE,
-              fontSize: NORMAL_FONT_SIZE,
-              fontFamily: FAMILY_CHEEKY_RABBIT,
-              maxWidth: width(30),
-              marginTop: height(1),
-            }}
+            style={{color: COLOR_BLUE, fontFamily: FAMILY_BULLYING}}
+            title={new Date(props.value * 1000).toISOString().substr(14, 5)}
+          />
+          <CustomText
+            style={{color: COLOR_SKIN, fontFamily: FAMILY_BULLYING}}
+            title={new Date(props.max * 1000).toISOString().substr(14, 5)}
           />
         </View>
+        <View>
+          <View style={{alignItems: 'center'}}>
+            <CustomText
+              title={props.title}
+              style={{
+                color: COLOR_WHITE,
+                fontSize: LARGE_FONT_SIZE,
+                fontFamily: FAMILY_ARGUE,
+                maxWidth: width(80),
+              }}
+            />
+            <CustomText
+              title={props.artist}
+              style={{
+                color: COLOR_LIGHT_PURPLE,
+                fontSize: NORMAL_FONT_SIZE,
+                fontFamily: FAMILY_CHEEKY_RABBIT,
+                maxWidth: width(30),
+                marginTop: height(1),
+              }}
+            />
+          </View>
 
-        <View style={styles.bottomButtomContainer}>
-          <CustomGradientIcon
-            name="shuffle"
-            type="entypo"
-            size={25}
-            onPress={() => console.log('Pres')}
-            colors={GRADIENT_BLUE_PURPLE}
-          />
-          <CustomGradientIcon
-            name="skip-previous"
-            type="material"
-            size={35}
-            onPress={() => previousTrack()}
-          />
-          <LinearGradient
-            colors={[COLOR_PINK, COLOR_PEACH, COLOR_PURPLE]} //'#4c669f', '#3b5998', '#192f6a'
-            style={styles.playButtonOuter}>
-            <View style={styles.playButtonInner}>
-              <CustomGradientIcon
-                name={playbackState === State.Playing ? 'pause' : 'play'}
-                type="font-awesome"
-                size={30}
-                onPress={() => {
-                  console.log('Play button pressed');
-                  setPlay(!play);
-                  togglePlayButton(playbackState);
-                }}
-                colors={[{color: COLOR_PEACH, offset: '0', opacity: '1'}]}
-              />
-            </View>
-          </LinearGradient>
-          <CustomGradientIcon
-            name="skip-next"
-            type="material"
-            size={35}
-            onPress={() => nextTrack()}
-          />
+          <View style={styles.bottomButtomContainer}>
+            <CustomGradientIcon
+              name="shuffle"
+              type="entypo"
+              size={25}
+              onPress={() => console.log('Pres')}
+              colors={GRADIENT_WHITE}
+            />
+            <CustomGradientIcon
+              name="skip-previous"
+              type="material"
+              size={45}
+              onPress={() => previousTrack()}
+              colors={GRADIENT_CORAL}
+            />
+            <LinearGradient
+              colors={[Colors.COLOR_PRIMARY, Colors.COLOR_LIGHT_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
+              style={styles.playButtonOuter}>
+              <View style={styles.playButtonInner}>
+                <CustomGradientIcon
+                  name={playbackState === State.Playing ? 'pause' : 'play'}
+                  type="font-awesome"
+                  size={30}
+                  onPress={() => {
+                    console.log('Play button pressed');
+                    setPlay(!play);
+                    togglePlayButton(playbackState);
+                  }}
+                  colors={[{color: COLOR_PEACH, offset: '0', opacity: '1'}]}
+                />
+              </View>
+            </LinearGradient>
+            <CustomGradientIcon
+              name="skip-next"
+              type="material"
+              size={45}
+              onPress={() => nextTrack()}
+              colors={GRADIENT_CORAL}
+            />
 
-          <CustomGradientIcon
-            name={repeatIcon()}
-            type="material-community"
-            size={25}
-            onPress={() => changeRepeatMode()}
-            colors={GRADIENT_BLUE_PURPLE}
-          />
+            <CustomGradientIcon
+              name={repeatIcon()}
+              type="material-community"
+              size={25}
+              onPress={() => changeRepeatMode()}
+              colors={GRADIENT_WHITE}
+            />
+          </View>
         </View>
-      </View>
+      </LinearGradient>
     </Modal>
   );
 }

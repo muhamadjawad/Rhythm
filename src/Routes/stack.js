@@ -14,7 +14,7 @@ const AppStack = props => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Test">
+      initialRouteName="Splash">
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="SoundPlayerScreen" component={SoundPlayerScreen} />

@@ -14,7 +14,7 @@ import {
   COLOR_SECONDARY,
   COLOR_SKIN,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import {height, width} from 'react-native-dimension';
 import CustomGradientIcon from '../SingleComponents/customGradientIcon';
 import CustomText from '../SingleComponents/customText';
@@ -28,6 +28,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import CustomLinearSlider from '../SingleComponents/customLinearSlider';
 import * as Animatable from 'react-native-animatable';
+import Colors from '../../Styles/Colors';
 
 export default function SoundEntity(props) {
   return (
@@ -37,8 +38,18 @@ export default function SoundEntity(props) {
         end={{x: 1, y: 1}}
         colors={
           props.current
-            ? [COLOR_BLACK, COLOR_LIGHT_SECONDARY, COLOR_BLACK]
-            : [COLOR_LIGHT_SECONDARY, COLOR_SECONDARY, COLOR_PRIMARY]
+            ? [
+                Colors.COLOR_PRIMARY,
+                Colors.COLOR_SECONDARY,
+                Colors.COLOR_SECONDARY,
+                Colors.COLOR_PRIMARY,
+              ]
+            : [
+                Colors.COLOR_SECONDARY,
+                Colors.COLOR_SECONDARY,
+
+                // Colors.COLOR_PRIMARY,
+              ]
         }
         style={styles.gradientContainer}>
         <View
