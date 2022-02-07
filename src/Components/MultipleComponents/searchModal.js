@@ -8,7 +8,7 @@ import {
   COLOR_SECONDARY,
   COLOR_SKIN,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import CustomGradientIcon from '../SingleComponents/customGradientIcon';
 import {height, width} from 'react-native-dimension';
 import LinearGradient from 'react-native-linear-gradient';

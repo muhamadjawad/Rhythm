@@ -7,7 +7,7 @@ import {
   COLOR_PINK,
   COLOR_RED,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import {width, height} from 'react-native-dimension';
 import Images from '../../Assets/Images';
 import CustomText from '../SingleComponents/customText';

@@ -9,7 +9,7 @@ import {
   COLOR_RED,
   COLOR_SECONDARY,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import Images from '../../Assets/Images';
 import {height, width} from 'react-native-dimension';
 

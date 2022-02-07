@@ -7,8 +7,17 @@ export const COLOR_LIGHT_SECONDARY = '#353761';
 export const COLOR_PURPLE = '#5a2a72';
 export const COLOR_SKIN = '#e47c7c';
 export const COLOR_BLUE = '#145281';
-export const COLOR_LIGHT_PURPLE = '#4b4e7f';
+export const COLOR_LIGH_PURPLE = '#4b4e7f';
 export const COLOR_PEACH = '#c8755f';
-export const COLOR_PINK = '#6d2460';
+// export const COLOR_PINK = '#6d2460';
 export const COLOR_BLACK = 'black';
 export const COLOR_LIGHT_WHITE = '#fdccff';
+
+export const COLOR_TEAL = '#2f6879';
+export const COLOR_CORAL = '#e97a5f';
+export const COLOR_TURTOISE = '#7cddd2';
+export const COLOR_GREY = '#c2cece';
+
+export const COLOR_PINK = '#cf252a';
+export const COLOR_LIGHT_BLACK = '#3b3d60';
+export const COLOR_LIGHT_PURPLE = '#a44a96';

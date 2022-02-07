@@ -6,8 +6,7 @@ import {
   COLOR_PRIMARY,
   COLOR_SECONDARY,
   COLOR_SKIN,
-  COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import {height, width} from 'react-native-dimension';
 import CustomGradientIcon from '../SingleComponents/customGradientIcon';
 import CustomText from '../SingleComponents/customText';

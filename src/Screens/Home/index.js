@@ -1,6 +1,6 @@
 import {View, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {COLOR_PRIMARY} from '../../Styles/colorConstants';
+import {COLOR_PRIMARY} from '../../Styles/Colors/colorConstants';
 import {height} from 'react-native-dimension';
 import SoundEntity from '../../Components/MultipleComponents/soundEntity';
 import SearchModal from '../../Components/MultipleComponents/searchModal';
@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import TrackPlayer, {useProgress} from 'react-native-track-player';
 import SoundPlayerScreen from '../SoundPlayer';
 import Images from '../../Assets/Images';
+import Colors from '../../Styles/Colors';
 
 export default function Home(props) {
   const [isVisible, setIsVisible] = useState(false);

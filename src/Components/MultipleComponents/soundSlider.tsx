@@ -15,7 +15,7 @@ import {
   COLOR_PURPLE,
   COLOR_SECONDARY,
   COLOR_SKIN,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import {GRADIENT_SKIN_PURPLE} from '../../Styles/gradients';
 
 interface Props {

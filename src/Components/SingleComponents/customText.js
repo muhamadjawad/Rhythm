@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {COLOR_WHITE} from '../../Styles/colorConstants';
+import {COLOR_WHITE} from '../../Styles/Colors/colorConstants';
 
 export default function CustomText(props) {
   return (
