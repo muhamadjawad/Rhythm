@@ -1,52 +1,59 @@
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  COLOR_BLUE,
-  COLOR_PRIMARY,
-  COLOR_SECONDARY,
-  COLOR_SKIN,
-} from '../../Styles/colorConstants';
 import {height, width} from 'react-native-dimension';
-import CustomGradientIcon from '../SingleComponents/customGradientIcon';
 import CustomText from '../SingleComponents/customText';
 import {HEADER_FONT_SIZE, LARGE_FONT_SIZE} from '../../Styles/fontSizes';
 import {FAMILY_CHEEKY_RABBIT, FAMILY_SOMETIME} from '../../Styles/fontFamilies';
+import Colors from '../../Styles/Colors';
+import CustomSimpleIcon from '../SingleComponents/customSimpleIcon';
 
 export default function HomeHeader(props) {
   const [seacrhKeyword, setSeacrhKeyword] = useState('');
   const [search, setSearch] = useState(false);
+
   return (
     <View>
       {search ? (
         <LinearGradient
-          colors={[COLOR_PRIMARY, COLOR_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
+          colors={[Colors.COLOR_SECONDARY, Colors.COLOR_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
           style={styles.searchContainer}>
-          <CustomGradientIcon
-            disabled={true}
-            type="font-awesome"
-            name="search"
-            size={27}
-          />
-          <TextInput
-            value={seacrhKeyword}
-            onChangeText={val => {
-              setSeacrhKeyword(val);
-            }}
-            spellCheck={false}
-            placeholder="Type Here..."
-            placeholderTextColor={COLOR_SKIN}
-            style={[
-              styles.inputContainer,
-              {fontFamily: seacrhKeyword ? 'AntDesign' : FAMILY_CHEEKY_RABBIT},
-            ]}
-          />
-          <CustomGradientIcon
-            type="font-awesome"
-            name="close"
-            size={27}
-            onPress={() => setSearch(false)}
-          />
+          <View style={{flex: 0.9}}>
+            <TextInput
+              value={seacrhKeyword}
+              onChangeText={val => {
+                setSeacrhKeyword(val);
+                props.setKeyword(val);
+              }}
+              spellCheck={false}
+              placeholder="Search Here..."
+              placeholderTextColor={Colors.COLOR_PRIMARY}
+              style={[
+                styles.inputContainer,
+                {
+                  fontFamily: seacrhKeyword
+                    ? 'AntDesign'
+                    : FAMILY_CHEEKY_RABBIT,
+                },
+              ]}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.1,
+              alignItems: 'center',
+            }}>
+            <CustomSimpleIcon
+              type={'FontAwesome'}
+              name={'close'}
+              style={{color: Colors.COLOR_PRIMARY}}
+              onPress={() => {
+                setSearch(false);
+                props.setSearch(false);
+                setSeacrhKeyword('');
+              }}
+            />
+          </View>
         </LinearGradient>
       ) : (
         <View style={styles.nonSearchContainer}>
@@ -56,15 +63,16 @@ export default function HomeHeader(props) {
             style={{
               fontSize: HEADER_FONT_SIZE,
               fontFamily: FAMILY_SOMETIME,
+              color: Colors.COLOR_PRIMARY,
             }}
           />
-
-          <CustomGradientIcon
-            type="font-awesome"
-            name="search"
-            size={30}
+          <CustomSimpleIcon
+            type={'FontAwesome5'}
+            name={'search'}
+            style={{color: Colors.COLOR_PRIMARY}}
             onPress={() => {
               setSearch(true);
+              props.setSearch(true);
             }}
           />
         </View>
@@ -79,7 +87,7 @@ const styles = StyleSheet.create({
     marginHorizontal: width(2),
     marginVertical: height(2.5),
     alignItems: 'center',
-    backgroundColor: COLOR_SECONDARY,
+    backgroundColor: Colors.COLOR_SECONDARY,
     paddingHorizontal: width(2),
     borderRadius: 20,
   },
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
     width: width(73),
     marginLeft: width(3),
     fontSize: LARGE_FONT_SIZE, //NORMAL_FONT_SIZE,
-    color: COLOR_BLUE,
+    color: Colors.COLOR_PRIMARY,
   },
   nonSearchContainer: {
     flexDirection: 'row',

@@ -5,8 +5,8 @@ import {
   COLOR_PURPLE,
   COLOR_SKIN,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
-import {GRADIENT_SKIN_PURPLE} from '../../Styles/gradients';
+} from '../../Styles/Colors/colorConstants';
+import {GRADIENT_TEAL_GREY, GRADIENT_SKIN_PURPLE} from '../../Styles/gradients';
 
 const CustomGradientIcon = props => {
   return (
@@ -14,7 +14,7 @@ const CustomGradientIcon = props => {
       <Icon
         style={props.style}
         size={props.size ? props.size : 25}
-        colors={props.colors ? props.colors : GRADIENT_SKIN_PURPLE}
+        colors={props.colors ? props.colors : GRADIENT_TEAL_GREY}
         type={props.type}
         name={props.name}
       />

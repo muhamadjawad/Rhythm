@@ -1,109 +1,77 @@
-import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
-  COLOR_BLUE,
+  COLOR_BLACK,
   COLOR_LIGHT_PURPLE,
   COLOR_PEACH,
-  COLOR_PINK,
-  COLOR_PRIMARY,
-  COLOR_PURPLE,
-  COLOR_SKIN,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
-import CustomGradientIcon from '../../Components/SingleComponents/customGradientIcon';
+} from '../../Styles/Colors/colorConstants';
 import {height, width} from 'react-native-dimension';
 import LinearGradient from 'react-native-linear-gradient';
-import {GRADIENT_BLUE_PURPLE} from '../../Styles/gradients';
-import {LARGE_FONT_SIZE, NORMAL_FONT_SIZE} from '../../Styles/fontSizes';
+import {LARGE_FONT_SIZE} from '../../Styles/fontSizes';
 import {
-  FAMILY_ARGUE,
+  FAMILY_ABEZEE,
   FAMILY_BULLYING,
   FAMILY_CHEEKY_RABBIT,
 } from '../../Styles/fontFamilies';
 import CustomText from '../../Components/SingleComponents/customText';
-import Images from '../../Assets/Images';
 import Modal from 'react-native-modal';
-import CustomLinearSlider from '../../Components/SingleComponents/customLinearSlider';
-// import SoundPlayer from 'react-native-sound-player';
-import TrackPlayer, {
-  Capability,
-  Event,
-  RepeatMode,
-  State,
-  usePlaybackState,
-  useTrackPlayerEvents,
-  useProgress,
-} from 'react-native-track-player';
-import {sound} from '../../Model/data';
-import SoundPlayer from 'react-native-sound-player';
+
+import {RepeatMode, State, usePlaybackState} from 'react-native-track-player';
+import CircularProgress from 'react-native-circular-progress-indicator';
+import Colors from '../../Styles/Colors';
+import CustomSimpleIcon from '../../Components/SingleComponents/customSimpleIcon';
 
 export default function SoundPlayerScreen(props) {
-  const soundButtonRadius = width(3.4);
-  const sliderRadius = width(80) / 2;
-  const imageRadius = width(65) / 2;
-  const marginCal = sliderRadius - imageRadius + soundButtonRadius;
+  const sliderRadius = width(70) / 2;
+  const imageRadius = width(55) / 2;
+  const marginCal = sliderRadius - imageRadius;
 
   //////////////states for buttons //////
 
   const [play, setPlay] = useState(true);
   const [repeatMode, setRepeatMode] = useState('off');
+  const [trackLength, setTrackLength] = useState(0);
 
   ///////////////////////////////////////
 
   //////////////////////////////////////
 
   const playbackState = usePlaybackState();
-  const soundProgress = useProgress();
+
   //////////////////////////////////////
 
   useEffect(() => {
-    setupPlayer();
-  }, []);
-
-  const setupPlayer = () => {
-    try {
-      TrackPlayer.setupPlayer()
-        .then(() => {
-          TrackPlayer.add(sound);
-        })
-        .then(() => {
-          TrackPlayer.play();
-        });
-    } catch (error) {
-      console.log('error in initiliaztion ', error);
-    }
-  };
-  const stopPlayer = async () => {
-    await TrackPlayer.stop();
-  };
+    console.log('value in side  ', props.value, 'max', props.max);
+  });
 
   const togglePlayButton = async current => {
-    const currentTrack = await TrackPlayer.getCurrentTrack();
+    const currentTrack = await props.TrackPlayer.getCurrentTrack();
     console.log(currentTrack, 'current', current, 'State.Paused', State.Paused);
     if (currentTrack !== null) {
       if (current === State.Paused) {
-        await TrackPlayer.play();
+        await props.TrackPlayer.play();
       } else if (current === State.Playing) {
-        await TrackPlayer.pause();
+        await props.TrackPlayer.pause();
       } else {
-        await TrackPlayer.play();
+        await props.TrackPlayer.play();
       }
     }
   };
 
   const nextTrack = async () => {
     try {
-      await TrackPlayer.skipToNext();
+      await props.TrackPlayer.skipToNext();
     } catch (error) {
-      await TrackPlayer.skip(0);
+      await props.TrackPlayer.skip(0);
     }
   };
 
   const previousTrack = async () => {
     try {
-      await TrackPlayer.skipToPrevious();
+      await props.TrackPlayer.skipToPrevious();
     } catch (error) {
-      await TrackPlayer.skip(sound.length - 1);
+      await props.TrackPlayer.skip(trackLength - 1);
     }
   };
 
@@ -120,50 +88,47 @@ export default function SoundPlayerScreen(props) {
 
   const changeRepeatMode = () => {
     if (repeatMode === 'off') {
-      TrackPlayer.setRepeatMode(RepeatMode.Track);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Track);
       setRepeatMode('track');
     }
 
     if (repeatMode === 'track') {
-      TrackPlayer.setRepeatMode(RepeatMode.Queue);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Queue);
       setRepeatMode('repeat');
     }
 
     if (repeatMode === 'repeat') {
-      TrackPlayer.setRepeatMode(RepeatMode.Off);
+      props.TrackPlayer.setRepeatMode(RepeatMode.Off);
       setRepeatMode('off');
     }
   };
 
-  const shuffle = async () => {
-    TrackPlayer.loo;
-  };
-
   useEffect(() => {
-    TrackPlayer.addEventListener('playback-state', ({state}) =>
-      //state 2 === paused
-      // state 3 ===played
+    try {
+      props.TrackPlayer.addEventListener('playback-state', ({state}) =>
+        //state 2 === paused
+        // state 3 ===played
 
-      {
-        // console.log('Play event ', state);
-        if (state === 1) {
-          // then play the first sound again
-          // TrackPlayer.reset();
-          TrackPlayer.skip(0);
-        }
-      },
-    );
+        {
+          // console.log('Play event ', state);
+          if (state === 1) {
+            // then play the first sound again
+            // props.TrackPlayer.reset();
+            props.TrackPlayer.skip(0);
+          }
+        },
+      );
+    } catch (error) {}
   });
 
   return (
     <Modal
       animationIn={'shake'}
       animationOut={'fadeIn'}
-      transparent={true}
-      isVisible={true}
+      isVisible={props.isVisible}
       style={{
         flex: 1,
-        backgroundColor: COLOR_PRIMARY,
+        backgroundColor: Colors.COLOR_SECONDARY,
         justifyContent: 'space-between',
         margin: 0,
       }}>
@@ -175,12 +140,11 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           marginVertical: height(2),
         }}>
-        <CustomGradientIcon
-          type="ionicons"
-          name="arrow-right-circle"
-          size={32}
-          style={{alignSelf: 'flex-end'}}
-          onPress={() => props.navigation.pop()}
+        <CustomSimpleIcon
+          type={'Ionicons'}
+          name={'arrow-forward-circle'}
+          style={{color: Colors.COLOR_PRIMARY}}
+          onPress={props.onClose}
         />
       </View>
 
@@ -189,123 +153,104 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           alignSelf: 'center',
         }}>
-        {/* <CircleSlider
-          value={parseInt(
-            soundProgress.position * (360 / soundProgress.duration),
-          )}
-          max={359}
-          btnRadius={soundButtonRadius}
-          dialRadius={sliderRadius}
-          min={0}
-          meterColor={COLOR_SKIN}
-          strokeWidth={4}
-          strokeColor={COLOR_PINK}
-          // onValueChange={async value => {
-          //   console.log('value', value);
-          //   await TrackPlayer.seekTo(value);
-          // }}
-        /> */}
-
-        <View style={{position: 'relative', marginTop: marginCal}}>
-          <Image style={styles.image} source={Images.test} />
-        </View>
-      </View>
-
-      <View style={{marginHorizontal: width(10)}}>
-        <CustomLinearSlider
-          value={soundProgress.position}
-          max={soundProgress.duration}
-          onStart={() => {
-            console.log('start');
-          }}
-          onChange={async value => {
-            console.log('value of current ==>', value);
-            // await SoundPlayer.seek(value);
-          }}
+        {/*      (props.value !== undefined  && props.max !==undefined)   ? (props.value / props.max) * 100 : 0 */}
+        <CircularProgress
+          value={
+            props.value !== undefined && props.max !== undefined
+              ? (props.value / props.max) * 100
+              : 0
+          }
+          radius={sliderRadius}
+          textColor={'#ecf0f1'}
+          inActiveStrokeColor={COLOR_BLACK}
+          // inActiveStrokeOpacity={0.5}
+          inActiveStrokeWidth={10}
+          activeStrokeWidth={5}
+          activeStrokeColor={Colors.COLOR_PRIMARY}
         />
+        <View style={{position: 'absolute', marginTop: marginCal}}>
+          <Image style={styles.image} source={props.image} />
+        </View>
       </View>
 
       <View style={styles.timer}>
         <CustomText
-          style={{color: COLOR_BLUE, fontFamily: FAMILY_BULLYING}}
-          title={new Date(soundProgress.position * 1000)
-            .toISOString()
-            .substr(14, 5)}
+          style={{color: Colors.COLOR_PRIMARY, fontFamily: FAMILY_BULLYING}}
+          title={new Date(props.value * 1000).toISOString().substr(14, 5)}
         />
         <CustomText
-          style={{color: COLOR_SKIN, fontFamily: FAMILY_BULLYING}}
-          title={new Date(soundProgress.duration * 1000)
-            .toISOString()
-            .substr(14, 5)}
+          style={{color: Colors.COLOR_PRIMARY, fontFamily: FAMILY_BULLYING}}
+          title={new Date(props.max * 1000).toISOString().substr(14, 5)}
         />
       </View>
       <View>
         <View style={{alignItems: 'center'}}>
           <CustomText
-            title={'Sound Name vary vary large large dfsf'}
+            title={props.title}
             style={{
               color: COLOR_WHITE,
-              fontSize: LARGE_FONT_SIZE,
-              fontFamily: FAMILY_ARGUE,
+              // fontSize: VERY_LARGE_SIZE,
+              fontFamily: FAMILY_ABEZEE, //'AutourOne-Regular'
+
+              fontSize: width(6),
               maxWidth: width(80),
             }}
           />
           <CustomText
-            title={`'Repeat  mode ===>' ${repeatMode}`}
+            title={props.artist}
             style={{
               color: COLOR_LIGHT_PURPLE,
-              fontSize: NORMAL_FONT_SIZE,
+              fontSize: LARGE_FONT_SIZE,
               fontFamily: FAMILY_CHEEKY_RABBIT,
-              maxWidth: width(60),
+              maxWidth: width(30),
               marginTop: height(1),
             }}
           />
         </View>
 
         <View style={styles.bottomButtomContainer}>
-          <CustomGradientIcon
-            name="shuffle"
-            type="entypo"
-            size={25}
+          <CustomSimpleIcon
+            type={'Foundation'}
+            name={'shuffle'}
+            style={{color: COLOR_WHITE}}
             onPress={() => console.log('Pres')}
-            colors={GRADIENT_BLUE_PURPLE}
           />
-          <CustomGradientIcon
-            name="controller-fast-backward"
-            type="entypo"
-            size={35}
+          <CustomSimpleIcon
+            name="play-skip-back-circle"
+            type="Ionicons"
+            style={{color: Colors.COLOR_PRIMARY, fontSize: width(14)}}
             onPress={() => previousTrack()}
           />
+
           <LinearGradient
-            colors={[COLOR_PINK, COLOR_PEACH, COLOR_PURPLE]} //'#4c669f', '#3b5998', '#192f6a'
+            colors={[COLOR_WHITE, Colors.COLOR_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
             style={styles.playButtonOuter}>
             <View style={styles.playButtonInner}>
-              <CustomGradientIcon
+              <CustomSimpleIcon
                 name={playbackState === State.Playing ? 'pause' : 'play'}
-                type="font-awesome"
-                size={30}
+                type="FontAwesome5"
+                style={{color: Colors.COLOR_SECONDARY}}
                 onPress={() => {
                   console.log('Play button pressed');
                   setPlay(!play);
                   togglePlayButton(playbackState);
                 }}
-                colors={[{color: COLOR_PEACH, offset: '0', opacity: '1'}]}
               />
             </View>
           </LinearGradient>
-          <CustomGradientIcon
-            name="controller-fast-forward"
-            type="entypo"
-            size={35}
+
+          <CustomSimpleIcon
+            name="play-skip-forward-circle"
+            type="Ionicons"
+            style={{color: Colors.COLOR_PRIMARY, fontSize: width(14)}}
             onPress={() => nextTrack()}
           />
 
-          <CustomGradientIcon
+          <CustomSimpleIcon
             name={repeatIcon()}
-            type="material-community"
-            size={25}
+            type="MaterialCommunityIcons"
+            style={{color: COLOR_WHITE}}
             onPress={() => changeRepeatMode()}
-            colors={GRADIENT_BLUE_PURPLE}
           />
         </View>
       </View>
@@ -332,7 +277,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLOR_PRIMARY,
+    backgroundColor: Colors.COLOR_PRIMARY,
   },
 
   bottomButtomContainer: {
@@ -345,8 +290,8 @@ const styles = StyleSheet.create({
 
   image: {
     marginHorizontal: width(10),
-    height: width(65),
-    width: width(65),
+    height: width(55),
+    width: width(55),
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: COLOR_WHITE,
@@ -361,3 +306,19 @@ const styles = StyleSheet.create({
     marginHorizontal: width(4),
   },
 });
+
+{
+  /* <View style={{marginHorizontal: width(10)}}>
+          <CustomLinearSlider
+            value={props.value !== undefined ? props.value : 0}
+            max={props.max !== undefined ? props.max : 0}
+            onStart={() => {
+              console.log('start');
+            }}
+            onChange={async value => {
+              console.log('value of current ==>', value);
+              // await SoundPlayer.seek(value);
+            }}
+          />
+        </View> */
+}

@@ -1,78 +1,71 @@
-import {View, Text, TouchableOpacity, StyleSheet, Animated} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import React from 'react';
 import {
-  COLOR_BLACK,
-  COLOR_BLUE,
-  COLOR_LIGHT_PURPLE,
-  COLOR_LIGHT_SECONDARY,
-  COLOR_LIGHT_WHITE,
-  COLOR_PEACH,
-  COLOR_PINK,
-  COLOR_PRIMARY,
-  COLOR_PURPLE,
-  COLOR_RED,
-  COLOR_SECONDARY,
-  COLOR_SKIN,
+  COLOR_DARK_SECONDARY,
   COLOR_WHITE,
-} from '../../Styles/colorConstants';
+} from '../../Styles/Colors/colorConstants';
 import {height, width} from 'react-native-dimension';
-import CustomGradientIcon from '../SingleComponents/customGradientIcon';
 import CustomText from '../SingleComponents/customText';
-import {NORMAL_FONT_SIZE, SMALL_FONT_SIZE} from '../../Styles/fontSizes';
-import {
-  FAMILY_ARGUE,
-  FAMILY_MOGENA,
-  FAMILY_STORYSTONE,
-} from '../../Styles/fontFamilies';
-import LinearGradient from 'react-native-linear-gradient';
+import {LARGE_FONT_SIZE, SMALL_FONT_SIZE} from '../../Styles/fontSizes';
+import {FAMILY_ARGUE, FAMILY_STORYSTONE} from '../../Styles/fontFamilies';
 
-import CustomLinearSlider from '../SingleComponents/customLinearSlider';
-import * as Animatable from 'react-native-animatable';
+import CircularProgress from 'react-native-circular-progress-indicator';
+import Colors from '../../Styles/Colors';
+import CustomSimpleIcon from '../SingleComponents/customSimpleIcon';
 
 export default function SoundEntity(props) {
-  const [slider, setSlider] = useState(0.0);
-
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
-        colors={
-          props.current
-            ? [COLOR_BLACK, COLOR_LIGHT_SECONDARY, COLOR_BLACK]
-            : [COLOR_LIGHT_SECONDARY, COLOR_SECONDARY, COLOR_PRIMARY]
-        }
-        style={styles.gradientContainer}>
+      <View style={[styles.mainContainer]}>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             <View
               style={{
-                backgroundColor: COLOR_PRIMARY,
                 justifyContent: 'center',
-                borderRadius: width(10),
-                padding: 10,
-                // alignItems: 'center',
-                // alignSelf: 'center',
+                padding: width(7),
               }}>
-              <CustomGradientIcon
-                type="ionicons"
-                name="pause"
-                style={{marginLeft: width(1)}}
+              <CustomSimpleIcon
+                type={'FontAwesome'}
+                name={props.current ? 'pause' : 'play'}
+                style={{color: Colors.COLOR_PRIMARY, fontSize: width(6)}}
+                onPress={props.onPressPlay}
               />
+
+              {/* {props.current ? (
+                <View style={{position: 'absolute', alignSelf: 'center'}}>
+                  <CircularProgress
+                    value={
+                      props.sliderValue !== undefined && props.max !== undefined
+                        ? (props.sliderValue / props.max) * 100
+                        : 0
+                    }
+                    radius={width(11)}
+                    textColor={'transparent'}
+                    inActiveStrokeColor={'transparent'}
+                    activeStrokeWidth={5}
+                    activeStrokeColor={COLOR_WHITE}
+                    activeStrokeSecondaryColor={Colors.COLOR_PRIMARY}
+                  />
+                </View>
+              ) : null} */}
             </View>
             <View style={{marginLeft: width(2)}}>
               <CustomText
                 title={props.title}
                 style={{
-                  fontSize: NORMAL_FONT_SIZE,
+                  fontSize: LARGE_FONT_SIZE,
                   fontFamily: FAMILY_ARGUE,
 
-                  color: COLOR_WHITE,
+                  color: Colors.COLOR_PRIMARY,
                   maxWidth: width(60),
                 }}
               />
@@ -80,7 +73,7 @@ export default function SoundEntity(props) {
                 title={props.artist}
                 style={{
                   fontSize: SMALL_FONT_SIZE,
-                  fontFamily: FAMILY_MOGENA,
+                  fontFamily: FAMILY_ARGUE,
                   color: COLOR_WHITE,
                   marginTop: height(0.5),
                   maxWidth: width(30),
@@ -88,51 +81,52 @@ export default function SoundEntity(props) {
               />
             </View>
           </View>
+
           <CustomText
-            title={props.time}
+            title={new Date(props.time * 1000).toISOString().substr(14, 5)}
             style={{
               fontSize: SMALL_FONT_SIZE,
               fontFamily: FAMILY_STORYSTONE,
-              color: COLOR_LIGHT_PURPLE,
+              color: COLOR_WHITE,
             }}
           />
         </View>
-        {props.current === true ? (
-          <CustomLinearSlider
-            value={slider}
-            onValueChange={value => setSlider(value)}
-          />
-        ) : null}
-      </LinearGradient>
+      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  gradientContainer: {
-    backgroundColor: COLOR_SECONDARY,
+  mainContainer: {
     marginHorizontal: width(3),
-    borderRadius: 7,
+    borderRadius: 20,
     padding: 4,
-
     paddingVertical: height(2),
     paddingHorizontal: width(2),
     marginVertical: height(0.5),
+    elevation: 10,
+    backgroundColor: COLOR_DARK_SECONDARY,
   },
 });
 
 {
-  /* <View
-style={{
-  backgroundColor: COLOR_SECONDARY,
-  marginHorizontal: width(3),
-  borderRadius: 7,
-  padding: 4,
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  paddingVertical: height(2),
-  paddingHorizontal: width(2),
-  marginVertical: height(0.5),
-}}> */
+  /* <LinearGradient
+start={{x: 0, y: 0}}
+end={{x: 1, y: 1}}
+colors={
+  props.current
+    ? [
+        Colors.COLOR_PRIMARY,
+        Colors.COLOR_SECONDARY,
+        Colors.COLOR_SECONDARY,
+        Colors.COLOR_PRIMARY,
+      ]
+    : [
+        Colors.COLOR_SECONDARY,
+        Colors.COLOR_SECONDARY,
+
+        // Colors.COLOR_PRIMARY,
+      ]
+}
+style={styles.mainContainer}> */
 }

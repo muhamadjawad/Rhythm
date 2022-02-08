@@ -16,6 +16,9 @@ target 'Rhythm' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  
+
+
   target 'RhythmTests' do
     inherit! :complete
     # Pods for testing
