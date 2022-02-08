@@ -11,6 +11,7 @@ import TrackPlayer, {useProgress} from 'react-native-track-player';
 import SoundPlayerScreen from '../SoundPlayer';
 import Images from '../../Assets/Images';
 import Colors from '../../Styles/Colors';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function Home(props) {
   const [isVisible, setIsVisible] = useState(false);
@@ -147,39 +148,51 @@ export default function Home(props) {
   }, [keyword]);
 
   return (
-    <View style={{backgroundColor: COLOR_PRIMARY, flex: 1}}>
-      <HomeHeader
-        setKeyword={val => {
-          console.log('Itss keywrd', val);
-          setKeyword(val);
-        }}
-        setSearch={val => {
-          setSearch(val);
-        }}
-      />
+    <View style={{flex: 1}}>
+      <LinearGradient
+        colors={[
+          Colors.COLOR_SECONDARY,
+          Colors.COLOR_PRIMARY,
+          Colors.COLOR_PRIMARY,
+          Colors.COLOR_PRIMARY,
+        ]}
+        style={{flex: 1}}>
+        <HomeHeader
+          setKeyword={val => {
+            console.log('Itss keywrd', val);
+            setKeyword(val);
+          }}
+          setSearch={val => {
+            setSearch(val);
+          }}
+        />
 
-      <FlatList
-        ListHeaderComponent={<View style={{marginVertical: height(1)}} />}
-        ListFooterComponent={<View style={{marginVertical: height(1)}} />}
-        data={search === true ? searchedResult : soundArray}
-        renderItem={({item, index}) => renderItem(item, index)}
-        keyExtractor={(item, index) => index.toString()}
-      />
+        <FlatList
+          ListHeaderComponent={<View style={{marginVertical: height(1)}} />}
+          ListFooterComponent={<View style={{marginVertical: height(1)}} />}
+          data={search === true ? searchedResult : soundArray}
+          renderItem={({item, index}) => renderItem(item, index)}
+          keyExtractor={(item, index) => index.toString()}
+        />
 
-      <SearchModal isVisible={isVisible} onClose={() => setIsVisible(false)} />
+        <SearchModal
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+        />
 
-      <SoundPlayerScreen
-        TrackPlayer={TrackPlayer}
-        max={soundProgress.duration}
-        value={soundProgress.position}
-        title={title}
-        artist={artist}
-        image={image}
-        isVisible={sPModal}
-        onClose={() => {
-          setsPdModal(false);
-        }}
-      />
+        <SoundPlayerScreen
+          TrackPlayer={TrackPlayer}
+          max={soundProgress.duration}
+          value={soundProgress.position}
+          title={title}
+          artist={artist}
+          image={image}
+          isVisible={sPModal}
+          onClose={() => {
+            setsPdModal(false);
+          }}
+        />
+      </LinearGradient>
     </View>
   );
 }

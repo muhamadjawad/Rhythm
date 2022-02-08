@@ -7,3 +7,5 @@ export const FAMILY_ARSENICAL = 'ArsenicaTrial-Thin';
 export const FAMILY_ARGUE = 'Argue DEMO';
 export const FAMILY_MOGENA = 'Mogena';
 export const FAMILY_CHEEKY_RABBIT = 'Cheeky Rabbit';
+export const FAMILY_ABEZEE = 'ABeeZee-Italic';
+export const FAMILY_AUTOURONE = 'AutourOne-Regular';

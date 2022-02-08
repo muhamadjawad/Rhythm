@@ -18,6 +18,7 @@ export const COLOR_CORAL = '#e97a5f';
 export const COLOR_TURTOISE = '#7cddd2';
 export const COLOR_GREY = '#c2cece';
 
-export const COLOR_PINK = '#cf252a';
+export const COLOR_SKY_BLUE = '#69d7db'; // '#d18082'; //  '#d66366';
 export const COLOR_LIGHT_BLACK = '#3b3d60';
 export const COLOR_LIGHT_PURPLE = '#a44a96';
+export const COLOR_DARK_SECONDARY = '#303255';

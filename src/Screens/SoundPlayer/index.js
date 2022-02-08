@@ -1,56 +1,30 @@
-import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
-  COLOR_BLUE,
-  COLOR_GREY,
+  COLOR_BLACK,
   COLOR_LIGHT_PURPLE,
   COLOR_PEACH,
-  COLOR_PINK,
-  COLOR_PRIMARY,
-  COLOR_PURPLE,
-  COLOR_SKIN,
   COLOR_WHITE,
 } from '../../Styles/Colors/colorConstants';
-import CustomGradientIcon from '../../Components/SingleComponents/customGradientIcon';
 import {height, width} from 'react-native-dimension';
 import LinearGradient from 'react-native-linear-gradient';
+import {LARGE_FONT_SIZE} from '../../Styles/fontSizes';
 import {
-  GRADIENT_BLUE_PURPLE,
-  GRADIENT_CORAL,
-  GRADIENT_CORAL_GREY,
-  GRADIENT_GREY,
-  GRADIENT_SKIN,
-  GRADIENT_TURTOISE,
-  GRADIENT_WHITE,
-} from '../../Styles/gradients';
-import {LARGE_FONT_SIZE, NORMAL_FONT_SIZE} from '../../Styles/fontSizes';
-import {
-  FAMILY_ARGUE,
+  FAMILY_ABEZEE,
   FAMILY_BULLYING,
   FAMILY_CHEEKY_RABBIT,
 } from '../../Styles/fontFamilies';
 import CustomText from '../../Components/SingleComponents/customText';
-import Images from '../../Assets/Images';
 import Modal from 'react-native-modal';
-import CustomLinearSlider from '../../Components/SingleComponents/customLinearSlider';
 
-import {
-  Capability,
-  Event,
-  RepeatMode,
-  State,
-  usePlaybackState,
-  useTrackPlayerEvents,
-  useProgress,
-} from 'react-native-track-player';
-import {soundArray} from '../../Model/data';
+import {RepeatMode, State, usePlaybackState} from 'react-native-track-player';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import Colors from '../../Styles/Colors';
+import CustomSimpleIcon from '../../Components/SingleComponents/customSimpleIcon';
 
 export default function SoundPlayerScreen(props) {
-  const soundButtonRadius = width(3.4);
-  const sliderRadius = width(84) / 2;
-  const imageRadius = width(65) / 2;
+  const sliderRadius = width(70) / 2;
+  const imageRadius = width(55) / 2;
   const marginCal = sliderRadius - imageRadius;
 
   //////////////states for buttons //////
@@ -151,11 +125,10 @@ export default function SoundPlayerScreen(props) {
     <Modal
       animationIn={'shake'}
       animationOut={'fadeIn'}
-      // transparent={true}
       isVisible={props.isVisible}
       style={{
         flex: 1,
-        backgroundColor: Colors.COLOR_LIGHT_SECONDARY,
+        backgroundColor: Colors.COLOR_SECONDARY,
         justifyContent: 'space-between',
         margin: 0,
       }}>
@@ -167,11 +140,10 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           marginVertical: height(2),
         }}>
-        <CustomGradientIcon
-          type="ionicons"
-          name="arrow-right-circle"
-          size={32}
-          style={{alignSelf: 'flex-end'}}
+        <CustomSimpleIcon
+          type={'Ionicons'}
+          name={'arrow-forward-circle'}
+          style={{color: Colors.COLOR_PRIMARY}}
           onPress={props.onClose}
         />
       </View>
@@ -181,18 +153,20 @@ export default function SoundPlayerScreen(props) {
           alignItems: 'center',
           alignSelf: 'center',
         }}>
+        {/*      (props.value !== undefined  && props.max !==undefined)   ? (props.value / props.max) * 100 : 0 */}
         <CircularProgress
           value={
-            props.value !== undefined ? (props.value / props.max) * 100 : 0
+            props.value !== undefined && props.max !== undefined
+              ? (props.value / props.max) * 100
+              : 0
           }
           radius={sliderRadius}
           textColor={'#ecf0f1'}
-          inActiveStrokeColor={'transparent'}
+          inActiveStrokeColor={COLOR_BLACK}
           // inActiveStrokeOpacity={0.5}
-          inActiveStrokeWidth={20}
-          activeStrokeWidth={10}
-          activeStrokeColor={COLOR_PINK}
-          activeStrokeSecondaryColor={COLOR_PEACH}
+          inActiveStrokeWidth={15}
+          activeStrokeWidth={7}
+          activeStrokeColor={Colors.COLOR_PRIMARY}
         />
         <View style={{position: 'absolute', marginTop: marginCal}}>
           <Image style={styles.image} source={props.image} />
@@ -201,11 +175,11 @@ export default function SoundPlayerScreen(props) {
 
       <View style={styles.timer}>
         <CustomText
-          style={{color: COLOR_BLUE, fontFamily: FAMILY_BULLYING}}
+          style={{color: Colors.COLOR_PRIMARY, fontFamily: FAMILY_BULLYING}}
           title={new Date(props.value * 1000).toISOString().substr(14, 5)}
         />
         <CustomText
-          style={{color: COLOR_SKIN, fontFamily: FAMILY_BULLYING}}
+          style={{color: Colors.COLOR_PRIMARY, fontFamily: FAMILY_BULLYING}}
           title={new Date(props.max * 1000).toISOString().substr(14, 5)}
         />
       </View>
@@ -215,8 +189,10 @@ export default function SoundPlayerScreen(props) {
             title={props.title}
             style={{
               color: COLOR_WHITE,
-              fontSize: LARGE_FONT_SIZE,
-              fontFamily: FAMILY_ARGUE,
+              // fontSize: VERY_LARGE_SIZE,
+              fontFamily: FAMILY_ABEZEE, //'AutourOne-Regular'
+
+              fontSize: width(6),
               maxWidth: width(80),
             }}
           />
@@ -224,7 +200,7 @@ export default function SoundPlayerScreen(props) {
             title={props.artist}
             style={{
               color: COLOR_LIGHT_PURPLE,
-              fontSize: NORMAL_FONT_SIZE,
+              fontSize: LARGE_FONT_SIZE,
               fontFamily: FAMILY_CHEEKY_RABBIT,
               maxWidth: width(30),
               marginTop: height(1),
@@ -233,51 +209,48 @@ export default function SoundPlayerScreen(props) {
         </View>
 
         <View style={styles.bottomButtomContainer}>
-          <CustomGradientIcon
-            name="shuffle"
-            type="entypo"
-            size={25}
+          <CustomSimpleIcon
+            type={'Foundation'}
+            name={'shuffle'}
+            style={{color: COLOR_WHITE}}
             onPress={() => console.log('Pres')}
-            colors={GRADIENT_WHITE}
           />
-          <CustomGradientIcon
-            name="skip-previous"
-            type="material"
-            size={45}
+          <CustomSimpleIcon
+            name="play-skip-back-circle"
+            type="Ionicons"
+            style={{color: Colors.COLOR_PRIMARY, fontSize: width(14)}}
             onPress={() => previousTrack()}
-            colors={GRADIENT_CORAL}
           />
+
           <LinearGradient
-            colors={[Colors.COLOR_PRIMARY, Colors.COLOR_LIGHT_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
+            colors={[COLOR_WHITE, Colors.COLOR_SECONDARY]} //'#4c669f', '#3b5998', '#192f6a'
             style={styles.playButtonOuter}>
             <View style={styles.playButtonInner}>
-              <CustomGradientIcon
+              <CustomSimpleIcon
                 name={playbackState === State.Playing ? 'pause' : 'play'}
-                type="font-awesome"
-                size={30}
+                type="FontAwesome5"
+                style={{color: Colors.COLOR_SECONDARY}}
                 onPress={() => {
                   console.log('Play button pressed');
                   setPlay(!play);
                   togglePlayButton(playbackState);
                 }}
-                colors={[{color: COLOR_PEACH, offset: '0', opacity: '1'}]}
               />
             </View>
           </LinearGradient>
-          <CustomGradientIcon
-            name="skip-next"
-            type="material"
-            size={45}
+
+          <CustomSimpleIcon
+            name="play-skip-forward-circle"
+            type="Ionicons"
+            style={{color: Colors.COLOR_PRIMARY, fontSize: width(14)}}
             onPress={() => nextTrack()}
-            colors={GRADIENT_CORAL}
           />
 
-          <CustomGradientIcon
+          <CustomSimpleIcon
             name={repeatIcon()}
-            type="material-community"
-            size={25}
+            type="MaterialCommunityIcons"
+            style={{color: COLOR_WHITE}}
             onPress={() => changeRepeatMode()}
-            colors={GRADIENT_WHITE}
           />
         </View>
       </View>
@@ -304,7 +277,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLOR_PRIMARY,
+    backgroundColor: Colors.COLOR_PRIMARY,
   },
 
   bottomButtomContainer: {
@@ -317,8 +290,8 @@ const styles = StyleSheet.create({
 
   image: {
     marginHorizontal: width(10),
-    height: width(65),
-    width: width(65),
+    height: width(55),
+    width: width(55),
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: COLOR_WHITE,
