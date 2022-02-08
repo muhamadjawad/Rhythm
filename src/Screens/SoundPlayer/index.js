@@ -164,8 +164,8 @@ export default function SoundPlayerScreen(props) {
           textColor={'#ecf0f1'}
           inActiveStrokeColor={COLOR_BLACK}
           // inActiveStrokeOpacity={0.5}
-          inActiveStrokeWidth={15}
-          activeStrokeWidth={7}
+          inActiveStrokeWidth={10}
+          activeStrokeWidth={5}
           activeStrokeColor={Colors.COLOR_PRIMARY}
         />
         <View style={{position: 'absolute', marginTop: marginCal}}>
