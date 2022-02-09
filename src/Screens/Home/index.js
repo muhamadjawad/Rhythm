@@ -129,10 +129,17 @@ export default function Home(props) {
 
     if (condition1 && condition3) {
       // here we need to update the player
+      TrackPlayer.stop();
 
-      setTitle(soundArray[currentTrackIndex + 1].title);
-      setImage(soundArray[currentTrackIndex + 1].artwork);
-      setArtist(soundArray[currentTrackIndex + 1].artist);
+      setTitle('');
+      setImage(Images.default);
+      setArtist('');
+      // setTitle(soundArray[currentTrackIndex + 1].title);
+      // setImage(soundArray[currentTrackIndex + 1].artwork);
+      // setArtist(soundArray[currentTrackIndex + 1].artist);
+      setCurrentTrackIndex(currentTrackIndex + 1);
+
+      TrackPlayer.skip(currentTrackIndex + 1);
     }
   });
 
