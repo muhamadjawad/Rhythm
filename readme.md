@@ -7,6 +7,8 @@ The App will play sounds contained in the app.
 <p align="center">
 <img src="./src/Assets/Common/splash.png" alt="drawing" width="200"    />
 <img src="./src/Assets/Common/home.png" alt="drawing" width="200"    />
+<img src="./src/Assets/Common/player.png" alt="drawing" width="200"    />
+<img src="./src/Assets/Common/search.png" alt="drawing" width="200"    />
 </p>
 
 ### Installation
