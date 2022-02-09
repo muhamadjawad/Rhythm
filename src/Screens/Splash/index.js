@@ -35,7 +35,12 @@ export default function Splash(props) {
   };
 
   return (
-    <View
+    <LinearGradient
+      colors={[
+        Colors.COLOR_SECONDARY,
+        Colors.COLOR_SECONDARY,
+        Colors.COLOR_PRIMARY,
+      ]} //'#4c669f', '#3b5998', '#192f6a'
       style={{
         flex: 1,
 
@@ -63,6 +68,6 @@ export default function Splash(props) {
         }}>
         Rythm
       </Text>
-    </View>
+    </LinearGradient>
   );
 }
