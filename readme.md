@@ -5,6 +5,7 @@ The App will play sounds contained in the app.
 ### Working Result
 
 <p align="center">
+<img src="./src/Assets/Common/splash.png" alt="drawing" width="200"    />
 <img src="./src/Assets/Common/home.png" alt="drawing" width="200"    />
 </p>
 
